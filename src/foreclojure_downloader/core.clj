@@ -40,7 +40,7 @@
 
 (defn checker [test]
   "Return the full checker for the given test."
-  (str "  " (lhs test) (arrow test) (rhs test)))
+  (str "  " (lhs test) " " (arrow test) " " (rhs test)))
 
 (defn checkers [problem]
   "Return all checkers for the given problem."
