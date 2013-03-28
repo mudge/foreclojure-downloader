@@ -4,7 +4,7 @@
 
 (defn- problems
   []
-  (pmap api/problem (range 1 200)))
+  (remove nil? (pmap api/problem (range 1 200))))
 
 (defn -main []
   (do
