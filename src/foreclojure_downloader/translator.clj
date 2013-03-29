@@ -4,9 +4,9 @@
 (defn- parse-simple-test
   "Parse simple tests of the form (= x y) where possible."
   [test]
-  (let [[eq & _ :as parsed-test] (binding [*read-eval* false] (read-string test))]
-    (when (and (= (count parsed-test) 3) (or (= eq '=) (= eq '==)))
-          (next (re-find #"^(?s)\((==?)\s+(#?\".+\"|'?\(.+\)|\[.+\]|#?\{.+\}|\S+)\s+(#?\".+\"|'?\(.+\)|\[.+\]|#?\{.+\}|\S+)\)$"
+  (let [parsed-test (binding [*read-eval* false] (read-string test))]
+    (when (= (count parsed-test) 3)
+          (next (re-find #"^(?s)\(==?\s+(#?\".+\"|'?\(.+\)|\[.+\]|#?\{.+\}|\S+)\s+(#?\".+\"|'?\(.+\)|\[.+\]|#?\{.+\}|\S+)\)$"
                          test)))))
 
 (defn- remove-comments
@@ -21,8 +21,8 @@
   will be preserved and checked to be true, e.g. (and (= x y) (= z a)) => true"
   [test]
   (let [indented-test (remove-comments (string/replace test "\r\n" "\n  "))]
-    (if-let [[equals left right] (parse-simple-test indented-test)]
-      (str "  " left " " equals "> " right)
+    (if-let [[left right] (parse-simple-test indented-test)]
+      (str "  " left " => " right)
       (str "  " indented-test " => true"))))
 
 (defn- checkers
