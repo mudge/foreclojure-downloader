@@ -5,8 +5,8 @@ tests using [Midje](https://github.com/marick/Midje).
 
 ## Usage
 
-Currently, the downloader will store all downloaded problem files under
-`src/foreclojure_solutions`.
+Use `lein run` to create tests under `src/foreclojure_solutions` by default.
+This can be overridden by passing a path to `run`, e.g. `lein run solutions`.
 
 ```console
 $ git clone git://github.com/mudge/foreclojure-downloader.git
@@ -20,3 +20,4 @@ $ lein run
 Copyright © 2013 Paul Mucur
 
 Distributed under the Eclipse Public License, the same as Clojure.
+

@@ -7,7 +7,10 @@
   []
   (filter identity (pmap api/problem (range 1 200))))
 
-(defn -main []
-  (doseq [problem (problems)]
-    (println "Writing problem" (:number problem) (:title problem))
-    (writer/write-problem problem)))
+(defn -main
+  ([] (-main "src/foreclojure_solutions"))
+  ([path]
+    (doseq [problem (problems)]
+      (println "Writing problem" (:number problem) (:title problem))
+      (writer/write-problem problem path))))
+
