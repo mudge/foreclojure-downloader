@@ -4,8 +4,10 @@
 (defn- parse-simple-test
   "Parse simple tests of the form (= x y) where possible."
   [test]
-  (next (re-find #"^(?s)\((==?)\s+(#?\".+\"|'?\(.+\)|\[.+\]|#?\{.+\}|\S+)\s+(#?\".+\"|'?\(.+\)|\[.+\]|#?\{.+\}|\S+)\)$"
-                 test)))
+  (let [[eq & _ :as parsed-test] (binding [*read-eval* false] (read-string test))]
+    (when (and (= (count parsed-test) 3) (or (= eq '=) (= eq '==)))
+          (next (re-find #"^(?s)\((==?)\s+(#?\".+\"|'?\(.+\)|\[.+\]|#?\{.+\}|\S+)\s+(#?\".+\"|'?\(.+\)|\[.+\]|#?\{.+\}|\S+)\)$"
+                         test)))))
 
 (defn- test->checker
   "Translate a test into a Midje checker.
