@@ -9,13 +9,18 @@
           (next (re-find #"^(?s)\((==?)\s+(#?\".+\"|'?\(.+\)|\[.+\]|#?\{.+\}|\S+)\s+(#?\".+\"|'?\(.+\)|\[.+\]|#?\{.+\}|\S+)\)$"
                          test)))))
 
+(defn- remove-comments
+  "Naively remove trailing comments from the given test."
+  [test]
+  (string/replace test #"(?m)\s+;.+$" ""))
+
 (defn- test->checker
   "Translate a test into a Midje checker.
 
   Tests of the form (= x y) will be translated to x => y but more complex tests
   will be preserved and checked to be true, e.g. (and (= x y) (= z a)) => true"
   [test]
-  (let [indented-test (string/replace test "\r\n" "\n  ")]
+  (let [indented-test (remove-comments (string/replace test "\r\n" "\n  "))]
     (if-let [[equals left right] (parse-simple-test indented-test)]
       (str "  " left " " equals "> " right)
       (str "  " indented-test " => true"))))

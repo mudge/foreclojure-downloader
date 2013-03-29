@@ -5,12 +5,14 @@
 (defn- problems
   "All problems currently on 4clojure."
   []
-  (filter identity (pmap api/problem (range 1 200))))
+  (filter identity (pmap api/problem (range 1 173))))
 
 (defn -main
   ([] (-main "src/foreclojure_solutions"))
   ([path]
-    (doseq [problem (problems)]
-      (println "Writing problem" (:number problem) (:title problem))
-      (writer/write-problem problem path))))
+    (do
+      (doseq [problem (problems)]
+        (println "Writing problem" (:number problem) (:title problem))
+        (writer/write-problem problem path))
+      (shutdown-agents))))
 
