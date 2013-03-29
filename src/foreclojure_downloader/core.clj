@@ -3,11 +3,11 @@
             [foreclojure-downloader.writer :as writer]))
 
 (defn- problems
+  "All problems currently on 4clojure."
   []
-  (remove nil? (pmap api/problem (range 1 200))))
+  (filter identity (pmap api/problem (range 1 200))))
 
 (defn -main []
-  (do
-    (println "Downloading problems...")
-    (pmap writer/write-problem (problems))
-    nil))
+  (doseq [problem (problems)]
+    (println "Writing problem" (:number problem) (:title problem))
+    (writer/write-problem problem)))

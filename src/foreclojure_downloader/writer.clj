@@ -9,8 +9,8 @@
 (defn write-problem
   "Write the given problem to disk."
   [problem]
-  (do
-    (.mkdirs (java.io.File. "src/foreclojure_solutions"))
-    (spit (file-name problem) (translator/problem-test problem)))
-    problem)
+  (let [dir (java.io.File. "src/foreclojure_solutions")]
+    (when-not (.exists dir) (.mkdirs dir))
+    (spit (file-name problem) (translator/problem-test problem))
+    problem))
 
