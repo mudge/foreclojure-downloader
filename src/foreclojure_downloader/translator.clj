@@ -15,10 +15,10 @@
   Tests of the form (= x y) will be translated to x => y but more complex tests
   will be preserved and checked to be true, e.g. (and (= x y) (= z a)) => true"
   [test]
-  (let [normalized-test (string/replace test "\r\n" "\n")]
-    (if-let [[equals left right] (parse-simple-test normalized-test)]
+  (let [indented-test (string/replace test "\r\n" "\n  ")]
+    (if-let [[equals left right] (parse-simple-test indented-test)]
       (str "  " left " " equals "> " right)
-      (str normalized-test " => true"))))
+      (str "  " indented-test " => true"))))
 
 (defn- checkers
   "Return all checkers for the given problem."
