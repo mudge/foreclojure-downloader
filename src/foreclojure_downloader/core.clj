@@ -1,4 +1,5 @@
 (ns foreclojure-downloader.core
+  (:gen-class)
   (:require [foreclojure-downloader.api :as api]
             [foreclojure-downloader.writer :as writer]))
 
